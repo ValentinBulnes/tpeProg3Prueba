@@ -15,14 +15,11 @@ public class Main {
 
         Fabrica fabrica = new Fabrica(maquinas, piezas);
 
-        List<Maquina> secuencia = fabrica.encontrarSecuenciaOptima();
-
-        if (secuencia.isEmpty()) {
-            System.out.println("No se encontró una secuencia de máquinas para producir " + piezas + " piezas.");
-        } else {
-            System.out.println("Piezas objetivo a producir: " + piezas);
-            System.out.println("Secuencia óptima de máquinas encontrada: " + secuencia);
-
-        }
+        System.out.println("Backtracking");
+        System.out.println("Solucion obtenida:");
+        System.out.println("Secuencia de maquinas: " + fabrica.encontrarSecuenciaOptima());
+        System.out.println("Cantidad de piezas producidas: " + fabrica.getPiezasObjetivo());
+        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + fabrica.getMinActivaciones());
+        System.out.println("Cantidad de estados generados: " + fabrica.getEstadosGenerados());
     }
 }

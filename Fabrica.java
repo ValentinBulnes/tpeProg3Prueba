@@ -7,39 +7,37 @@ public class Fabrica {
     private int piezasObjetivo;
     private List<Maquina> mejorSecuenciaMaquinas;
     private int minActivaciones;
+    private int estadosGenerados;
 
     public Fabrica(List<Maquina> maquinas, int piezasObjetivo) {
         this.maquinasDisponibles = new ArrayList<>(maquinas);
         this.piezasObjetivo = piezasObjetivo;
-        this.mejorSecuenciaMaquinas = new ArrayList<>();
-        this.minActivaciones = Integer.MAX_VALUE;
     }
 
     public List<Maquina> encontrarSecuenciaOptima() {
         this.mejorSecuenciaMaquinas = new ArrayList<>();
         this.minActivaciones = Integer.MAX_VALUE;
+        this.estadosGenerados = 0;
 
         List<Maquina> secuenciaActual = new ArrayList<>();
-
         backtracking(0, secuenciaActual);
 
-        if (this.minActivaciones == Integer.MAX_VALUE) {
-            return new ArrayList<>();
-        }
-
-        return this.mejorSecuenciaMaquinas;
+        return new ArrayList<>(this.mejorSecuenciaMaquinas);
     }
 
     private void backtracking(int piezasProducidasActual, List<Maquina> secuenciaActual) {
+        this.estadosGenerados++;
+
+        if (piezasProducidasActual == this.piezasObjetivo) {  //caso base
+            if (secuenciaActual.size() < this.piezasObjetivo) {
+                this.minActivaciones = secuenciaActual.size();
+                this.mejorSecuenciaMaquinas = new ArrayList<>(secuenciaActual);
+            }
+            return;  //termina esta rama
+        }
 
         if (secuenciaActual.size() >= this.minActivaciones) {  //poda
             return;  //vuelve a la llamada anterior
-        }
-
-        if (piezasProducidasActual == this.piezasObjetivo) {  //caso base
-            this.minActivaciones = secuenciaActual.size();
-            this.mejorSecuenciaMaquinas = new ArrayList<>(secuenciaActual);
-            return;  //termina esta rama
         }
 
         if (piezasProducidasActual > this.piezasObjetivo) {  //poda
@@ -48,9 +46,20 @@ public class Fabrica {
 
         for (Maquina maquinaAProbar : this.maquinasDisponibles) {
             secuenciaActual.add(maquinaAProbar);
-            int nuevasPiezasProducidas = piezasProducidasActual + maquinaAProbar.getPiezasProducidas();
-            backtracking(nuevasPiezasProducidas, secuenciaActual);  //llamada recursiva con el nuevo estado
+            backtracking(piezasProducidasActual + maquinaAProbar.getPiezasProducidas(), secuenciaActual);  //llamada recursiva con el nuevo estado
             secuenciaActual.remove(secuenciaActual.size() - 1);  //deshacer
         }
+    }
+
+    public int getPiezasObjetivo() {
+        return this.piezasObjetivo;
+    }
+
+    public int getMinActivaciones() {
+        return this.minActivaciones;
+    }
+
+    public int getEstadosGenerados() {
+        return this.estadosGenerados;
     }
 }
