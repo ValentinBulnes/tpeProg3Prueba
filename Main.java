@@ -1,29 +1,56 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("Ejemplo: (M1, 7), (M2, 3), (M3, 4), (M4, 1)");
-        int piezas = 12;
-
+        //cargar configuracion desde el archivo de texto
+        String rutaArchivo = "ejemplo.csv";
         List<Maquina> maquinas = new ArrayList<>();
-        maquinas.add(new Maquina("M1", 7));
-        maquinas.add(new Maquina("M2", 3));
-        maquinas.add(new Maquina("M3", 4));
-        maquinas.add(new Maquina("M4", 1));
+        int piezasObjetivo = 0;
 
-        Fabrica fabrica = new Fabrica(maquinas, piezas);
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+            // Leer la primera línea para las piezas objetivo
+            String lineaObjetivo = br.readLine();
+            if (lineaObjetivo != null) {
+                piezasObjetivo = Integer.parseInt(lineaObjetivo.trim());
+            }
 
-        FabricaGreedy fabrica2 = new FabricaGreedy(maquinas, piezas);
+            // Leer las líneas restantes para configurar las máquinas
+            String lineaMaquina;
+            while ((lineaMaquina = br.readLine()) != null) {
+                String[] partes = lineaMaquina.split(",");
+                if (partes.length == 2) {
+                    String id = partes[0].trim();
+                    int piezas = Integer.parseInt(partes[1].trim());
+                    maquinas.add(new Maquina(id, piezas));
+                }
+            }
+            System.out.println("Piezas a producir: " + piezasObjetivo);
+            System.out.println("Máquinas disponibles: " + maquinas);
+            System.out.println();
+
+        } catch (IOException e) {
+            System.err.println("Error" + e.getMessage());
+            return;
+        } catch (NumberFormatException e) {
+            System.err.println("Error numero en formato incorrecto" + e.getMessage());
+            return;
+        }
+
+        Fabrica fabrica = new Fabrica(maquinas, piezasObjetivo);
+
+        FabricaGreedy fabrica2 = new FabricaGreedy(maquinas, piezasObjetivo);
 
         System.out.println("Backtracking");
-        System.out.println("Solucion obtenida:");
         System.out.println("Secuencia de maquinas: " + fabrica.encontrarSecuenciaOptima());
         System.out.println("Cantidad de piezas producidas: " + fabrica.getPiezasObjetivo());
         System.out.println("Cantidad de puestas en funcionamiento requeridas: " + fabrica.getMinActivaciones());
         System.out.println("Cantidad de estados generados: " + fabrica.getEstadosGenerados());
-
+        System.out.println();
         System.out.println("Greddy");
         System.out.println("Solucion obtenida:" + fabrica2.resolverGreedy());
         System.out.println("Cantidad de piezas producidas: " + fabrica2.getPiezasObjetivo());

@@ -5,17 +5,17 @@ public class FabricaGreedy {
 
     private List<Maquina> maquinasDisponibles;
     private int piezasObjetivo;
-    private List<Maquina> solucionGreddy;
+    private List<Maquina> solucionGreedy;
     private int cantidadCandidatosConsiderados;
     int cantidadMaquinasEncendidas=0;
 
     public FabricaGreedy(List<Maquina> maquinasDisponibles, int piezasObjetivo) {
         this.maquinasDisponibles = maquinasDisponibles;
         this.piezasObjetivo = piezasObjetivo;
-        this.solucionGreddy = new ArrayList<>();
+        this.solucionGreedy = new ArrayList<>();
     }
     public List<Maquina> resolverGreedy() {
-        //ordeno las maquiinas de mayor a menor, asi se empieza de mejor manera, no se daria el caso de que la primer maquina produzca por ejemplo 3 piezas
+        //ordeno las maquinas de mayor a menor, asi se empieza de mejor manera, no se daria el caso de que la primer maquina produzca por ejemplo 3 piezas
         //y no sirva la solucion
         maquinasDisponibles.sort((a, b) -> b.getPiezasProducidas() - a.getPiezasProducidas());
         int totalpiezas = 0;
@@ -26,7 +26,7 @@ public class FabricaGreedy {
 
                 if (totalpiezas + m.getPiezasProducidas() <= piezasObjetivo) {
                     cantidadMaquinasEncendidas++;
-                    solucionGreddy.add(m);
+                    solucionGreedy.add(m);
                     totalpiezas += m.getPiezasProducidas();
                     maquinaElegida = true;
                     //se eligio la maquina y la agrego a la solucionGreddy con el add
@@ -34,15 +34,16 @@ public class FabricaGreedy {
             }
             if (!maquinaElegida) {
                 // No se puede usar esta solucion, dejo vacio el array
-                solucionGreddy = new ArrayList<>();
-
+                solucionGreedy = new ArrayList<>();
             }
         }
-        return solucionGreddy;
+        return solucionGreedy;
     }
+
     public int getPiezasObjetivo() {
         return this.piezasObjetivo;
     }
+
     public int getCantidadCandidatosConsiderados() {
         return this.cantidadCandidatosConsiderados;
     }
