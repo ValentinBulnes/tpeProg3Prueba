@@ -7,27 +7,31 @@ public class FabricaGreedy {
     private int piezasObjetivo;
     private List<Maquina> solucionGreedy;
     private int cantidadCandidatosConsiderados;
-    int cantidadMaquinasEncendidas=0;
+    private int cantidadMaquinasEncendidas;
+    private int piezasProducidas;
 
     public FabricaGreedy(List<Maquina> maquinasDisponibles, int piezasObjetivo) {
         this.maquinasDisponibles = maquinasDisponibles;
         this.piezasObjetivo = piezasObjetivo;
         this.solucionGreedy = new ArrayList<>();
+        this.cantidadCandidatosConsiderados = 0;
+        this.cantidadMaquinasEncendidas = 0;
+        this.piezasProducidas = 0;
     }
     public List<Maquina> resolverGreedy() {
         //ordeno las maquinas de mayor a menor, asi se empieza de mejor manera, no se daria el caso de que la primer maquina produzca por ejemplo 3 piezas
         //y no sirva la solucion
         maquinasDisponibles.sort((a, b) -> b.getPiezasProducidas() - a.getPiezasProducidas());
-        int totalpiezas = 0;
-        while (totalpiezas < piezasObjetivo) {
+        int totalPiezas = 0;
+        while (totalPiezas < piezasObjetivo) {
             boolean maquinaElegida = false;
             for (Maquina m : maquinasDisponibles) {
                 cantidadCandidatosConsiderados++;
 
-                if (totalpiezas + m.getPiezasProducidas() <= piezasObjetivo) {
+                if (totalPiezas + m.getPiezasProducidas() <= piezasObjetivo) {
                     cantidadMaquinasEncendidas++;
                     solucionGreedy.add(m);
-                    totalpiezas += m.getPiezasProducidas();
+                    totalPiezas += m.getPiezasProducidas();
                     maquinaElegida = true;
                     //se eligio la maquina y la agrego a la solucionGreddy con el add
                 }
@@ -37,7 +41,8 @@ public class FabricaGreedy {
                 solucionGreedy = new ArrayList<>();
             }
         }
-        return solucionGreedy;
+        this.piezasProducidas = totalPiezas;
+        return new ArrayList<>(this.solucionGreedy);
     }
 
     public int getPiezasObjetivo() {

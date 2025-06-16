@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fabrica {
+public class FabricaBacktracking {
 
     private List<Maquina> maquinasDisponibles;
     private int piezasObjetivo;
@@ -9,7 +9,7 @@ public class Fabrica {
     private int minActivaciones;
     private int estadosGenerados;
 
-    public Fabrica(List<Maquina> maquinas, int piezasObjetivo) {
+    public FabricaBacktracking(List<Maquina> maquinas, int piezasObjetivo) {
         this.maquinasDisponibles = new ArrayList<>(maquinas);
         this.piezasObjetivo = piezasObjetivo;
     }
@@ -25,6 +25,13 @@ public class Fabrica {
         return new ArrayList<>(this.mejorSecuenciaMaquinas);
     }
 
+    /*
+     * <<Breve explicación de la estrategia de resolución. Por ejemplo:
+     * - Cómo se genera el árbol de exploración.
+     * - Cuáles son los estados finales y estados solución.
+     * - Posibles podas.
+     * - etc.>>
+     */
     private void backtracking(int piezasProducidasActual, List<Maquina> secuenciaActual) {
         this.estadosGenerados++;
 
@@ -51,15 +58,25 @@ public class Fabrica {
         }
     }
 
-    public int getPiezasObjetivo() {
-        return this.piezasObjetivo;
+    public int getEstadosGenerados() {
+        return this.estadosGenerados;
     }
 
     public int getMinActivaciones() {
+        if (this.minActivaciones == Integer.MAX_VALUE) {
+            return 0;
+        }
         return this.minActivaciones;
     }
 
-    public int getEstadosGenerados() {
-        return this.estadosGenerados;
+    public int getPiezasProducidas() {
+        if (this.mejorSecuenciaMaquinas == null) {
+            return 0;
+        }
+        int total = 0;
+        for (Maquina m : this.mejorSecuenciaMaquinas) {
+            total += m.getPiezasProducidas();
+        }
+        return total;
     }
 }

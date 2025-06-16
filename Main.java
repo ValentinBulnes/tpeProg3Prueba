@@ -41,20 +41,20 @@ public class Main {
             return;
         }
 
-        Fabrica fabrica = new Fabrica(maquinas, piezasObjetivo);
+        FabricaBacktracking fabricaBacktracking = new FabricaBacktracking(maquinas,  piezasObjetivo);
 
-        FabricaGreedy fabrica2 = new FabricaGreedy(maquinas, piezasObjetivo);
+        FabricaGreedy fabricaGreedy = new FabricaGreedy(maquinas, piezasObjetivo);
 
         System.out.println("Backtracking");
-        System.out.println("Secuencia de maquinas: " + fabrica.encontrarSecuenciaOptima());
-        System.out.println("Cantidad de piezas producidas: " + fabrica.getPiezasObjetivo());
-        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + fabrica.getMinActivaciones());
-        System.out.println("Cantidad de estados generados: " + fabrica.getEstadosGenerados());
+        System.out.println("Secuencia de maquinas: " + fabricaBacktracking.encontrarSecuenciaOptima());
+        System.out.println("Cantidad de piezas producidas: " + fabricaBacktracking.getPiezasProducidas());
+        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + fabricaBacktracking.getMinActivaciones());
+        System.out.println("Cantidad de estados generados: " + fabricaBacktracking.getEstadosGenerados());
         System.out.println();
         System.out.println("Greddy");
-        System.out.println("Solucion obtenida:" + fabrica2.resolverGreedy());
-        System.out.println("Cantidad de piezas producidas: " + fabrica2.getPiezasObjetivo());
-        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + fabrica2.getCantidadMaquinasEncendidas());
-        System.out.println("Cantidad de candidatos considerados: " + fabrica2.getCantidadCandidatosConsiderados());
+        System.out.println("Solucion obtenida:" + fabricaGreedy.resolverGreedy());
+        System.out.println("Cantidad de piezas producidas: " + fabricaGreedy.getPiezasObjetivo());
+        System.out.println("Cantidad de puestas en funcionamiento requeridas: " + fabricaGreedy.getCantidadMaquinasEncendidas());
+        System.out.println("Cantidad de candidatos considerados: " + fabricaGreedy.getCantidadCandidatosConsiderados());
     }
 }
