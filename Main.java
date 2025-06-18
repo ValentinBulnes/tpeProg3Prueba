@@ -53,7 +53,7 @@ public class Main {
         System.out.println();
         System.out.println("Greddy");
         System.out.println("Solucion obtenida:" + fabricaGreedy.resolverGreedy());
-        System.out.println("Cantidad de piezas producidas: " + fabricaGreedy.getPiezasObjetivo());
+        System.out.println("Cantidad de piezas producidas: " + fabricaGreedy.getPiezasProducidas());
         System.out.println("Cantidad de puestas en funcionamiento requeridas: " + fabricaGreedy.getCantidadMaquinasEncendidas());
         System.out.println("Cantidad de candidatos considerados: " + fabricaGreedy.getCantidadCandidatosConsiderados());
     }
